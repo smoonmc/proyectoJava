@@ -1,4 +1,4 @@
-package com.ProyectoFinalGlobant.GamesStore.Exceptions;
+package com.ProyectoFinalGlobant.GamesStore.exceptions;
 
 public class ReservationNotFoundException extends Exception {
     public ReservationNotFoundException(String message) {

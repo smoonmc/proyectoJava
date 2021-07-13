@@ -1,4 +1,4 @@
-package com.ProyectoFinalGlobant.GamesStore.Exceptions;
+package com.ProyectoFinalGlobant.GamesStore.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

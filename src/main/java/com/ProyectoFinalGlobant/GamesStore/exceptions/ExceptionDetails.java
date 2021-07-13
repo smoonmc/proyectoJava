@@ -1,4 +1,4 @@
-package com.ProyectoFinalGlobant.GamesStore.Exceptions;
+package com.ProyectoFinalGlobant.GamesStore.exceptions;
 
 import java.util.Date;
 

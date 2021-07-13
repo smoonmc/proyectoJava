@@ -1,9 +1,9 @@
-package com.ProyectoFinalGlobant.GamesStore.Controllers;
+package com.ProyectoFinalGlobant.GamesStore.controllers;
 
-import com.ProyectoFinalGlobant.GamesStore.Models.ReservationModel;
-import com.ProyectoFinalGlobant.GamesStore.Services.ReservationService;
-import com.ProyectoFinalGlobant.GamesStore.Exceptions.ReservationBadRequestException;
-import com.ProyectoFinalGlobant.GamesStore.Exceptions.ReservationNotFoundException;
+import com.ProyectoFinalGlobant.GamesStore.models.ReservationModel;
+import com.ProyectoFinalGlobant.GamesStore.services.ReservationService;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.ReservationBadRequestException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.ReservationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

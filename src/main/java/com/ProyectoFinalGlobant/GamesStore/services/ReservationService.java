@@ -1,7 +1,7 @@
-package com.ProyectoFinalGlobant.GamesStore.Services;
+package com.ProyectoFinalGlobant.GamesStore.services;
 
-import com.ProyectoFinalGlobant.GamesStore.Models.ReservationModel;
-import com.ProyectoFinalGlobant.GamesStore.Repositories.ReservationRepository;
+import com.ProyectoFinalGlobant.GamesStore.models.ReservationModel;
+import com.ProyectoFinalGlobant.GamesStore.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

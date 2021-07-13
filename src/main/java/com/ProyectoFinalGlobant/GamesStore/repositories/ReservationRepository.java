@@ -1,6 +1,6 @@
-package com.ProyectoFinalGlobant.GamesStore.Repositories;
+package com.ProyectoFinalGlobant.GamesStore.repositories;
 
-import com.ProyectoFinalGlobant.GamesStore.Models.ReservationModel;
+import com.ProyectoFinalGlobant.GamesStore.models.ReservationModel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

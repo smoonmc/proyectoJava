@@ -1,4 +1,4 @@
-package com.ProyectoFinalGlobant.GamesStore.Models;
+package com.ProyectoFinalGlobant.GamesStore.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;

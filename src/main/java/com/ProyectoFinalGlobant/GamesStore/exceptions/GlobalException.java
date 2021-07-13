@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.TimeZone;
 
 @ControllerAdvice
 public class GlobalException extends ResponseEntityExceptionHandler {
