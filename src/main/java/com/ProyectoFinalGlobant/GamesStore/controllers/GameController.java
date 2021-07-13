@@ -54,7 +54,7 @@ public class GameController {
 
    //GET GAME BY STATUS
     @GetMapping("/getStatus/{status}")
-    public List<GameModel> getGameByStatus(@PathVariable("status") String status){
+    public List<GameModel> getGameByStatus(@PathVariable("status") String status) throws GameNotExistException {
       return gameService.getByStatus(status);
     }
 

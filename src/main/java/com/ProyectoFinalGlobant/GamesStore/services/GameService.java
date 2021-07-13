@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,9 @@ public class GameService {
             Long  number= game.getCopies();
 
             if( number <= 0) {
-                game.setStatus("RESERVADO");
+                game.setStatus("RESERVED");
             }else{
-                game.setStatus("DISPONIBLE");
+                game.setStatus("AVAILABLE");
             }
 
             game.setId(id);
@@ -67,13 +68,13 @@ public class GameService {
     }
 
     //GET GAME BY STATUS
-    public List<GameModel> getByStatus(@PathVariable("status") String status) {
+    public List<GameModel> getByStatus(@PathVariable("status") String status) throws GameNotExistException{
 
-       // List<GameModel> games = new ArrayList<>();
+        List<GameModel> gameStatus = gameRepository.findByStatus(status);
 
-       // games = gameRepository.findByStatus(status);
-
-       // return games;
+        if (gameStatus.isEmpty()){
+            throw new GameNotExistException("ALERT: Games whit status:" +status+ " not exist in Database!");
+        }
 
         return gameRepository.findByStatus(status);
 
