@@ -1,6 +1,7 @@
 package com.ProyectoFinalGlobant.GamesStore.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,36 +11,37 @@ import java.util.Date;
 public class GameModel {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="titulo", nullable = false)
-    private String titulo;
+    @Column(name = "title", nullable = false)
+    private String title;
 
 
-    @Column(name="consola", nullable = false)
-    private String consola;
+    @Column(name = "console", nullable = false)
+    private String console;
 
-    @Column(name="fecha_creacion", nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date fecha_creacion;
+    @Column(name = "creationDate", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date creationDate;
 
-    @Column(name="copias", nullable = false)
-    private Long copias;
+    @Column(name = "copies", nullable = false)
+    private Long copies;
 
 
-    @Column(name="estado", nullable = false)
-    private String estado;
+    @Column(name = "status", nullable = false)
+    private String status;
 
-    public GameModel(){ }
+    public GameModel() {
+    }
 
-    public GameModel(Long id, String titulo, String consola, Date fecha_creacion, Long copias, String estado) {
+    public GameModel(Long id, String title, String console, Date creationDate, Long copies, String status) {
         this.id = id;
-        this.titulo = titulo;
-        this.consola = consola;
-        this.fecha_creacion = fecha_creacion;
-        this.copias = copias;
-        this.estado = estado;
+        this.title = title;
+        this.console = console;
+        this.creationDate = creationDate;
+        this.copies = copies;
+        this.status = status;
     }
 
     public Long getId() {
@@ -50,43 +52,43 @@ public class GameModel {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getConsola() {
-        return consola;
+    public String getConsole() {
+        return console;
     }
 
-    public void setConsola(String consola) {
-        this.consola = consola;
+    public void setConsole(String console) {
+        this.console = console;
     }
 
-    public Date getFecha_creacion() {
-        return fecha_creacion;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setFecha_creacion(Date fecha_creacion) {
-        this.fecha_creacion = fecha_creacion;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public Long getCopias() {
-        return copias;
+    public Long getCopies() {
+        return copies;
     }
 
-    public void setCopias(Long copias) {
-        this.copias = copias;
+    public void setCopies(Long copies) {
+        this.copies = copies;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
