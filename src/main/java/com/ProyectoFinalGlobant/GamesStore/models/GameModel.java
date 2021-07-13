@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 @Table(name="games")
@@ -56,7 +57,7 @@ public class GameModel {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title.toUpperCase();
     }
 
     public String getConsole() {
@@ -64,7 +65,7 @@ public class GameModel {
     }
 
     public void setConsole(String console) {
-        this.console = console;
+        this.console = console.toUpperCase();
     }
 
     public Date getCreationDate() {
@@ -88,6 +89,6 @@ public class GameModel {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status.toUpperCase();
     }
 }

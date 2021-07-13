@@ -1,6 +1,7 @@
 package com.ProyectoFinalGlobant.GamesStore.controllers;
 
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlredyExistException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
 import com.ProyectoFinalGlobant.GamesStore.services.GameService;
@@ -20,7 +21,17 @@ public class GameController {
 
    //CREATE GAME
    @PostMapping("/create")
-   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlredyExistException {
+   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlredyExistException, GameBadStatusException {
+
+         String inputState = game.getStatus();
+
+         switch (inputState){
+             case "AVAILABLE":
+                 break;
+             case "RESERVED":
+                 break;
+             default: throw new GameBadStatusException("ALERT: Incorrect state, valid state: AVAILABLE/RESERVED", game.getTitle());
+         }
 
          gameService.createGame(game);
          return ResponseEntity.status(HttpStatus.CREATED).build();
