@@ -1,6 +1,6 @@
 package com.ProyectoFinalGlobant.GamesStore.controllers;
 
-import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlredyExistException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlreadyExistException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
@@ -21,7 +21,7 @@ public class GameController {
 
    //CREATE GAME
    @PostMapping("/create")
-   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlredyExistException, GameBadStatusException {
+   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlreadyExistException, GameBadStatusException {
 
          String inputState = game.getStatus();
 

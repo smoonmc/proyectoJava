@@ -1,10 +1,10 @@
 package com.ProyectoFinalGlobant.GamesStore.exceptions;
 
-public class GameAlredyExistException extends RuntimeException{
+public class GameAlreadyExistException extends RuntimeException{
 
     private String game;
 
-    public GameAlredyExistException(String message, String game) {
+    public GameAlreadyExistException(String message, String game) {
         super(message);
         this.game = game;
     }

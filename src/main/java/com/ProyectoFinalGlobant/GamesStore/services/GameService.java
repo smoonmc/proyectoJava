@@ -1,6 +1,6 @@
 package com.ProyectoFinalGlobant.GamesStore.services;
 
-import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlredyExistException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlreadyExistException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
 import com.ProyectoFinalGlobant.GamesStore.repositories.GameRepository;
@@ -23,13 +23,16 @@ public class GameService {
     private GameRepository gameRepository;
 
     //POST CREATE GAMES
-    public void createGame(@RequestBody GameModel game) throws GameAlredyExistException {
+    public void createGame(@RequestBody GameModel game) throws GameAlreadyExistException {
 
-        GameModel  gameModel= gameRepository.findByTitleAndConsole(game.getTitle(),game.getConsole());
+        GameModel  gameModel= gameRepository.findByTitleAndConsole(game.getTitle().toUpperCase(),game.getConsole().toUpperCase());
 
         if(gameModel != null ){
-            throw new GameAlredyExistException ("ALERT: Game already exist in database", game.getTitle());
+            throw new GameAlreadyExistException ("ALERT: Game already exist in database", game.getTitle());
         }
+        game.setTitle(game.getTitle().toUpperCase());
+        game.setConsole(game.getConsole().toUpperCase());
+        game.setStatus(game.getStatus().toUpperCase());
         gameRepository.save(game);
 
     }

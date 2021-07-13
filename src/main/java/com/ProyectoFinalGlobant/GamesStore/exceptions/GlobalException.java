@@ -13,8 +13,8 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class GlobalException extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(GameAlredyExistException.class)
-    public ResponseEntity<?> gameAlreadyExistException(GameAlredyExistException e, WebRequest r){
+    @ExceptionHandler(GameAlreadyExistException.class)
+    public ResponseEntity<?> gameAlreadyExistException(GameAlreadyExistException e, WebRequest r){
 
         DetailException detailException = new DetailException(e.getMessage(),e.getGame(),r.getDescription(false), ZonedDateTime.now(ZoneId.systemDefault()));
 
