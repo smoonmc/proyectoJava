@@ -1,15 +1,10 @@
 package com.ProyectoFinalGlobant.GamesStore.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;
-import org.hibernate.query.criteria.internal.expression.function.CurrentTimeFunction;
-import org.springframework.data.auditing.CurrentDateTimeProvider;
 
 import javax.persistence.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -19,10 +14,10 @@ public class ReservationModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private int id;
+    private Long id;
 
-    @Column(nullable = false)
-    private int gameId;
+    @Column(nullable = false, updatable = false)
+    private Long gameId;
 
     @Column(nullable = false)
     private String name;
@@ -30,7 +25,7 @@ public class ReservationModel {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(length = 13, nullable = false)
+    @Column(length = 13, nullable = false, updatable = false)
     private String documentNumber;
 
     @Column(nullable = false)
@@ -44,7 +39,7 @@ public class ReservationModel {
         this.reservationDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
 
-    public ReservationModel(int gameId, String name, String lastName, String email) {
+    public ReservationModel(Long gameId, String name, String lastName, String email) {
         this.gameId = gameId;
         this.name = name;
         this.lastName = lastName;
@@ -52,19 +47,19 @@ public class ReservationModel {
         this.reservationDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getGameId() {
+    public Long getGameId() {
         return gameId;
     }
 
-    public void setGameId(int gameId) {
+    public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
 

@@ -20,9 +20,9 @@ public class GameModel {
     @Column(name = "console", nullable = false)
     private String console;
 
-    @Column(name = "creationDate", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date creationDate;
+    @Column(name = "creationDate", nullable = false, length = 10)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private String creationDate;
 
     @Column(name = "copies", nullable = false)
     private Long copies;
@@ -34,7 +34,7 @@ public class GameModel {
     public GameModel() {
     }
 
-    public GameModel(Long id, String title, String console, Date creationDate, Long copies, String status) {
+    public GameModel(Long id, String title, String console, String creationDate, Long copies, String status) {
         this.id = id;
         this.title = title;
         this.console = console;
@@ -67,11 +67,11 @@ public class GameModel {
         this.console = console.toUpperCase();
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 

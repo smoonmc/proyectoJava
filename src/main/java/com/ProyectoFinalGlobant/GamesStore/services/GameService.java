@@ -1,6 +1,7 @@
 package com.ProyectoFinalGlobant.GamesStore.services;
 
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlreadyExistException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadRequestException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
@@ -24,7 +25,7 @@ public class GameService {
     private GameRepository gameRepository;
 
     //POST CREATE GAMES
-    public void createGame(@RequestBody GameModel game) throws GameAlreadyExistException {
+    public void createGame(@RequestBody GameModel game) throws GameAlreadyExistException, GameBadRequestException {
 
         GameModel  gameModel= gameRepository.findByTitleAndConsole(game.getTitle().toUpperCase(),game.getConsole().toUpperCase());
 
@@ -34,19 +35,27 @@ public class GameService {
         game.setTitle(game.getTitle().toUpperCase());
         game.setConsole(game.getConsole().toUpperCase());
         game.setStatus(game.getStatus().toUpperCase());
+        Long gameCopies = game.getCopies();
+        if(gameCopies <= 0){
+            throw new GameBadRequestException("Can't create game without copies :/");
+        }
         gameRepository.save(game);
 
     }
 
     //UPDATE GAME
-    public void updateGame(GameModel game, @PathVariable("id") Long id) {
+    public void updateGame(GameModel game, @PathVariable("id") Long id) throws GameBadRequestException {
 
             Long  number= game.getCopies();
 
-            if( number <= 0) {
+            if( number == 0) {
                 game.setStatus("RESERVED");
-            }else{
+            }
+            if (number > 0){
                 game.setStatus("AVAILABLE");
+            }
+            if (number < 0){
+                throw new GameBadRequestException("The game can't have negative copies.");
             }
 
             game.setId(id);
@@ -98,7 +107,7 @@ public class GameService {
         List<GameModel> gameStatus = gameRepository.findByStatus(status);
 
         if (gameStatus.isEmpty()){
-            throw new GameNotExistException("ALERT: Games whit status:" +status+ " not exist in Database!");
+            throw new GameNotExistException("ALERT: Games with status:" +status+ " not exist in Database!");
         }
 
         return gameRepository.findByStatus(status);

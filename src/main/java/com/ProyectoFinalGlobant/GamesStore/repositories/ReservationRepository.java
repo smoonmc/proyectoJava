@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 
 @Repository
-public interface ReservationRepository extends CrudRepository<ReservationModel, Integer> {
-    public abstract ArrayList<ReservationModel> findByDocumentNumberAndGameId(String documentNumber, Integer gameID);
-    public abstract ArrayList<ReservationModel> findByGameId(Integer gameID);
+public interface ReservationRepository extends CrudRepository<ReservationModel, Long> {
+    public abstract ArrayList<ReservationModel> findByDocumentNumberAndGameId(String documentNumber, Long gameID);
+    public abstract ArrayList<ReservationModel> findByGameId(Long gameID);
 }

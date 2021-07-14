@@ -1,6 +1,7 @@
 package com.ProyectoFinalGlobant.GamesStore.controllers;
 
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlreadyExistException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadRequestException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
@@ -24,7 +25,7 @@ public class GameController {
    private ReservationService reservationService;
    //CREATE GAME
    @PostMapping("/create")
-   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlreadyExistException, GameBadStatusException {
+   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlreadyExistException, GameBadStatusException, GameBadRequestException {
 
          String inputState = game.getStatus();
 
@@ -43,7 +44,7 @@ public class GameController {
 
     //UPDATE GAME BY ID
     @PutMapping("/update/{id}")
-    public String updateGame(@RequestBody GameModel game, @PathVariable("id") Long id) {
+    public String updateGame(@RequestBody GameModel game, @PathVariable("id") Long id) throws GameBadRequestException {
 
            gameService.updateGame(game, id);
 
@@ -53,7 +54,7 @@ public class GameController {
     //DELETE GAME BY ID
     @DeleteMapping("/delete/{id}")
     public String deleteGameById(@PathVariable("id") Long id) throws GameNotExistException, GameBadStatusException {
-        reservationService.deleteReservationByGameId(Math.toIntExact(id));
+        reservationService.deleteReservationByGameId(id);
         gameService.deleteGameById(id);
 
        return  ("INFO: Game was removed successfully!!");
