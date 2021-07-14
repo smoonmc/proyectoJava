@@ -1,5 +1,9 @@
 package com.ProyectoFinalGlobant.GamesStore.services;
 
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.ReservationBadRequestException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.ReservationNotFoundException;
+import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
 import com.ProyectoFinalGlobant.GamesStore.models.ReservationModel;
 import com.ProyectoFinalGlobant.GamesStore.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,9 @@ public class ReservationService {
     @Autowired
     ReservationRepository reservationRepository;
 
+    @Autowired
+    GameService gameService;
+
     public ArrayList<ReservationModel> getReservations() {
         return (ArrayList<ReservationModel>) reservationRepository.findAll();
     }
@@ -22,16 +29,23 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
-    public ArrayList<ReservationModel> getReservationByDocumentNumberAndGameId(String documentNumber, Integer gameId) {
-        return (ArrayList<ReservationModel>) reservationRepository.findByDocumentNumberAndGameId(documentNumber, gameId);
+    public ArrayList<ReservationModel> getReservationByGameId(Integer gameId) {
+        return (ArrayList<ReservationModel>) reservationRepository.findByGameId(gameId);
     }
 
-    public ReservationModel saveReservation(ReservationModel reservation) {
-        reservation.setName(reservation.getName().toUpperCase());
-        reservation.setLastName(reservation.getLastName().toUpperCase());
-        reservation.setEmail(reservation.getEmail().toUpperCase());
+    public ReservationModel saveReservation(ReservationModel reservation) throws ReservationBadRequestException, GameBadStatusException {
         reservation.setDocumentNumber(fixDocumentNumber(reservation.getDocumentNumber()));
-        return reservationRepository.save(reservation);
+        ArrayList<ReservationModel> findings = reservationRepository.findByDocumentNumberAndGameId(reservation.getDocumentNumber(), reservation.getId());
+        if (findings.isEmpty()) {
+            reservation.setName(reservation.getName().toUpperCase());
+            reservation.setLastName(reservation.getLastName().toUpperCase());
+            reservation.setEmail(reservation.getEmail().toUpperCase());
+            gameService.updateGameQuantity((long) reservation.getGameId(),-1);
+            return reservationRepository.save(reservation);
+        }
+        else {
+            throw new ReservationBadRequestException("Game already reserved by user");
+        }
     }
 
     public ReservationModel updateReservation(ReservationModel reservation, Integer id) {
@@ -43,12 +57,29 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public boolean deleteReservation(Integer id) {
-        try {
-            reservationRepository.deleteById(id);
-            return true;
-        }catch(Exception err) {
-            return false;
+    public boolean deleteReservationById(Integer id) throws ReservationNotFoundException {
+        Optional<ReservationModel> reservation = reservationRepository.findById(id);
+        if (reservation.isEmpty()){
+            throw new ReservationNotFoundException("Reservation does not exist");
+        }else {
+            try {
+                gameService.updateGameQuantity((long) reservation.get().getGameId(), 1);
+                reservationRepository.deleteById(id);
+                return true;
+            }catch(Exception err) {
+                return false;
+            }
+        }
+
+    }
+
+    public long deleteReservationByGameId(Integer gameId) throws GameBadStatusException {
+        ArrayList<ReservationModel> reservations = reservationRepository.findByGameId(gameId);
+        if (reservations.isEmpty()) return 0;
+        else {
+            gameService.updateGameQuantity((long) gameId, reservations.size());
+            reservations.stream().forEach(eachReservation -> reservationRepository.deleteById(eachReservation.getId()));
+            return reservations.size();
         }
     }
 

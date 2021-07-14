@@ -1,6 +1,7 @@
 package com.ProyectoFinalGlobant.GamesStore.services;
 
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlreadyExistException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
 import com.ProyectoFinalGlobant.GamesStore.repositories.GameRepository;
@@ -52,6 +53,27 @@ public class GameService {
             gameRepository.save(game);
     }
 
+    public GameModel updateGameQuantity(Long id, Integer quantity) throws GameBadStatusException {
+        Optional<GameModel> game = gameRepository.findById(id);
+            if (game.isEmpty()){
+                throw new GameNotExistException("The game does not exist, sorry");
+            }else {
+                game.get().setCopies(game.get().getCopies()+quantity);
+
+                if(game.get().getCopies() > 0 ){
+                    game.get().setStatus("AVAILABLE");
+                }
+                if (game.get().getCopies() == 0){
+                    game.get().setStatus("RESERVED");
+                }
+                if (game.get().getCopies() < 0){
+                    throw new GameBadStatusException("There are no available copies for this game.", game.get().getTitle());
+                }else {
+                    return gameRepository.save(game.get());
+                }
+        }
+    }
+
     //DELETE BY ID
     public void deleteGameById(@PathVariable("id") Long id) throws GameNotExistException {
         Optional<GameModel> gameOptional = gameRepository.findById(id);
@@ -93,5 +115,7 @@ public class GameService {
 
        return gameOptional.get();
     }
+
+
 
 }
