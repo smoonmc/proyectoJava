@@ -4,7 +4,9 @@ import com.ProyectoFinalGlobant.GamesStore.exceptions.GameAlredyExistException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.exceptions.GameNotExistException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
+import com.ProyectoFinalGlobant.GamesStore.models.ReservationModel;
 import com.ProyectoFinalGlobant.GamesStore.services.GameService;
+import com.ProyectoFinalGlobant.GamesStore.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class GameController {
    @Autowired
     private GameService gameService;
 
+   @Autowired
+    private ReservationService reservationService;
+
    //CREATE GAME
    @PostMapping("/create")
    public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlredyExistException, GameBadStatusException {
@@ -28,9 +33,7 @@ public class GameController {
          switch (inputState){
              case "AVAILABLE":
                  break;
-             case "RESERVED":
-                 break;
-             default: throw new GameBadStatusException("ALERT: Incorrect state, valid state: AVAILABLE/RESERVED", game.getTitle());
+             default: throw new GameBadStatusException("ALERT: Incorrect state, valid state: AVAILABLE", game.getTitle());
          }
 
          gameService.createGame(game);
@@ -51,8 +54,9 @@ public class GameController {
     @DeleteMapping("/delete/{id}")
     public String deleteGameById(@PathVariable("id") Long id) throws GameNotExistException {
 
-       gameService.deleteGameById(id);
-       return  ("INFO: Game was removed successfully!!");
+        gameService.deleteGameById(id);
+        reservationService.deleteReservationByGameId(Math.toIntExact(id));
+        return  ("INFO: Game was removed successfully!!");
 
     }
 
