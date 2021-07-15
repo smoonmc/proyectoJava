@@ -39,11 +39,13 @@ public class ReservationModel {
         this.reservationDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
 
-    public ReservationModel(Long gameId, String name, String lastName, String email) {
+    public ReservationModel(Long id, Long gameId, String name, String lastName, String email, String documentNumber) {
+        this.id = id;
         this.gameId = gameId;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+        this.documentNumber = documentNumber;
         this.reservationDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
 

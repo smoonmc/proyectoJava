@@ -56,7 +56,6 @@ public class GameController {
     public String deleteGameById(@PathVariable("id") Long id) throws GameNotExistException, GameBadStatusException {
         reservationService.deleteReservationByGameId(id);
         gameService.deleteGameById(id);
-
        return  ("INFO: Game was removed successfully!!");
 
     }

@@ -97,4 +97,16 @@ public class ReservationController {
         return email.contains("@") &&
                 (email.endsWith(".com") || email.endsWith(".cl"));
     }
+
+    public boolean fieldsAreValid(ReservationModel reservation) throws ReservationBadRequestException {
+        if ((reservation.getGameId() == 0) ||
+                (reservation.getDocumentNumber() == null) ||
+                (reservation.getName() == null) ||
+                (reservation.getLastName() == null) ||
+                (reservation.getEmail() == null)){
+            throw new ReservationBadRequestException("Empty field on creation request");
+        }
+        if (!emailIsValid(reservation.getEmail())) throw new ReservationBadRequestException("Invalid email on creation request");
+        return true;
+    }
 }
