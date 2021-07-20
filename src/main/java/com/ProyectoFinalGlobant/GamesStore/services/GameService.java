@@ -32,15 +32,18 @@ public class GameService {
         if(gameModel != null ){
             throw new GameAlreadyExistException ("ALERT: Game already exist in database", game.getTitle());
         }
-        game.setTitle(game.getTitle().toUpperCase());
-        game.setConsole(game.getConsole().toUpperCase());
-        game.setStatus(game.getStatus().toUpperCase());
-        Long gameCopies = game.getCopies();
-        if(gameCopies <= 0){
-            throw new GameBadRequestException("Can't create game without copies :/");
+        if (game.getCreationDate().matches("\\d{4}-\\d{2}-\\d{2}")) {
+            game.setTitle(game.getTitle().toUpperCase());
+            game.setConsole(game.getConsole().toUpperCase());
+            game.setStatus("AVAILABLE");
+            Long gameCopies = game.getCopies();
+            if(gameCopies <= 0){
+                throw new GameBadRequestException("ALERT. Can't create game without copies :/");
+            }
+            gameRepository.save(game);
+        }else {
+            throw new GameBadRequestException("ALERT. Wrong format date, Use yyyy-MM-dd format.");
         }
-        gameRepository.save(game);
-
     }
 
     //UPDATE GAME

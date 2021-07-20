@@ -25,19 +25,9 @@ public class GameController {
    private ReservationService reservationService;
    //CREATE GAME
    @PostMapping("/create")
-   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlreadyExistException, GameBadStatusException, GameBadRequestException {
-
-         String inputState = game.getStatus();
-
-         switch (inputState){
-             case "AVAILABLE":
-                 break;
-             default: throw new GameBadStatusException("ALERT: Incorrect state, valid state: AVAILABLE", game.getTitle());
-         }
-
+   public ResponseEntity<Void> createGames(@RequestBody GameModel  game) throws GameAlreadyExistException, GameBadRequestException {
          gameService.createGame(game);
          return ResponseEntity.status(HttpStatus.CREATED).build();
-
    }
 
     //UPDATE GAME BY ID

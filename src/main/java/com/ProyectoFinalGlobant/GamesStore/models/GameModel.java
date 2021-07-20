@@ -32,6 +32,7 @@ public class GameModel {
     private String status;
 
     public GameModel() {
+        this.status = "AVAILABLE";
     }
 
     public GameModel(Long id, String title, String console, String creationDate, Long copies, String status) {
@@ -40,7 +41,7 @@ public class GameModel {
         this.console = console;
         this.creationDate = creationDate;
         this.copies = copies;
-        this.status = status;
+        this.status = "AVAILABLE";
     }
 
     public Long getId() {

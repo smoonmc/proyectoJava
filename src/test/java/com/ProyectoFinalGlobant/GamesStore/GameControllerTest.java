@@ -1,12 +1,16 @@
 package com.ProyectoFinalGlobant.GamesStore;
 
 import com.ProyectoFinalGlobant.GamesStore.controllers.GameController;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadRequestException;
+import com.ProyectoFinalGlobant.GamesStore.exceptions.GameBadStatusException;
 import com.ProyectoFinalGlobant.GamesStore.models.GameModel;
 import com.ProyectoFinalGlobant.GamesStore.services.GameService;
 import com.ProyectoFinalGlobant.GamesStore.services.ReservationService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -77,7 +81,7 @@ class GameControllerTest {
         doNothing().when(mockGameService).createGame(any());
         mockMvc2.perform(post("/games/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"title\":\"game1\", \"console\":\"console1\", \"creationDate\":\"2021-07-15\", \"copies\":5, \"status\":\"AVAILABLE\" }")
+                .content("{ \"title\":\"game1\", \"console\":\"console1\", \"creationDate\":\"2021-07-15\", \"copies\":5 }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }

@@ -46,11 +46,7 @@ public class ReservationController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public ReservationModel createReservation(@RequestBody ReservationModel reservation) throws ReservationBadRequestException, GameBadStatusException {
-        if ((reservation.getGameId() == 0) ||
-                (reservation.getDocumentNumber() == null) ||
-                (reservation.getName() == null) ||
-                (reservation.getLastName() == null) ||
-                (reservation.getEmail() == null)){
+        if (fieldsAreValid(reservation)){
             throw new ReservationBadRequestException("Empty field on creation request");
         }
         if (!emailIsValid(reservation.getEmail())) throw new ReservationBadRequestException("Invalid email on creation request");
@@ -61,11 +57,7 @@ public class ReservationController {
     @ResponseStatus(code = HttpStatus.OK)
     public ReservationModel updateReservation(@RequestBody ReservationModel reservation, @PathVariable("id") Long id)
             throws ReservationBadRequestException, ReservationNotFoundException {
-        if ((reservation.getGameId() == 0) ||
-                (reservation.getDocumentNumber() == null) ||
-                (reservation.getName() == null) ||
-                (reservation.getLastName() == null) ||
-                (reservation.getEmail() == null)){
+        if (!fieldsAreValid(reservation)) {
             throw new ReservationBadRequestException("Empty field on creation request");
         }
         if (!emailIsValid(reservation.getEmail())) throw new ReservationBadRequestException("Invalid email on creation request");
@@ -98,15 +90,14 @@ public class ReservationController {
                 (email.endsWith(".com") || email.endsWith(".cl"));
     }
 
-    public boolean fieldsAreValid(ReservationModel reservation) throws ReservationBadRequestException {
+    public boolean fieldsAreValid(ReservationModel reservation)  {
         if ((reservation.getGameId() == 0) ||
                 (reservation.getDocumentNumber() == null) ||
                 (reservation.getName() == null) ||
                 (reservation.getLastName() == null) ||
                 (reservation.getEmail() == null)){
-            throw new ReservationBadRequestException("Empty field on creation request");
+            return false;
         }
-        if (!emailIsValid(reservation.getEmail())) throw new ReservationBadRequestException("Invalid email on creation request");
         return true;
     }
 }
