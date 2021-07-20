@@ -32,9 +32,7 @@ public class GameController {
          switch (inputState){
              case "AVAILABLE":
                  break;
-             case "RESERVED":
-                 break;
-             default: throw new GameBadStatusException("ALERT: Incorrect state, valid state: AVAILABLE/RESERVED", game.getTitle());
+             default: throw new GameBadStatusException("ALERT: Incorrect state, valid state: AVAILABLE", game.getTitle());
          }
 
          gameService.createGame(game);
